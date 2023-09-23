@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.workcode.model.Employee;
 import com.workcode.repository.EmployeeRepository;
+import com.workcode.service.exceptions.ResourceNotFoundException;
 
 @Service
 public class EmployeeService {
@@ -30,19 +31,20 @@ public class EmployeeService {
 	// R - Search Employee By ID
 	public Employee searchEmployeeById(Long id) {
 		Optional<Employee> emp = empRepository.findById(id);
-		return emp.orElseThrow(() -> new RuntimeException());
+		return emp.orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
 	}
 	
 	// U - Update Employee
 	public Employee updateEmployeeData(Long id, Employee empData) {
-		Employee empEntity = empRepository.getReferenceById(id);
-		updateData(empEntity, empData);
-		return empRepository.save(empEntity);
+			Employee empEntity = empRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+			updateData(empEntity, empData);
+			return empRepository.save(empEntity);
+		
 	}
 	
 	// D - Delete Employee
 	public void deleteEmployee(Long id) {
-		Employee emp = empRepository.getReferenceById(id);
+		Employee emp = empRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
 		empRepository.delete(emp);
 	}
 
