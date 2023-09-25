@@ -31,12 +31,12 @@ public class EmployeeService {
 	// R - Search Employee By ID
 	public Employee searchEmployeeById(Long id) {
 		Optional<Employee> emp = empRepository.findById(id);
-		return emp.orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+		return emp.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	// U - Update Employee
 	public Employee updateEmployeeData(Long id, Employee empData) {
-			Employee empEntity = empRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+			Employee empEntity = empRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 			updateData(empEntity, empData);
 			return empRepository.save(empEntity);
 		
@@ -44,7 +44,7 @@ public class EmployeeService {
 	
 	// D - Delete Employee
 	public void deleteEmployee(Long id) {
-		Employee emp = empRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+		Employee emp = empRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 		empRepository.delete(emp);
 	}
 
