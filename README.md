@@ -16,7 +16,9 @@ In addition, the API can return a 404 error if a employee id is non-existent.
 - JPA / Hibernate
 - Maven
 
-  
+## DataBase
+- MySQL
+
 # Author
 
 Guilherme Manuel Martins Freire
