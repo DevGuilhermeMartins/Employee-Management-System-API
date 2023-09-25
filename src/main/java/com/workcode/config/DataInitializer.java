@@ -3,8 +3,10 @@ package com.workcode.config;
 import java.time.LocalDate;
 import java.util.Arrays;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.workcode.model.Department;
@@ -41,4 +43,8 @@ public class DataInitializer implements CommandLineRunner{
 		empRepository.saveAll(Arrays.asList(emp1));
 	}
 
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
 }
