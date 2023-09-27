@@ -1,7 +1,6 @@
 package com.workcode.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,8 +29,7 @@ public class EmployeeService {
 	
 	// R - Search Employee By ID
 	public Employee searchEmployeeById(Long id) {
-		Optional<Employee> emp = empRepository.findById(id);
-		return emp.orElseThrow(() -> new ResourceNotFoundException(id));
+		return empRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	// U - Update Employee
