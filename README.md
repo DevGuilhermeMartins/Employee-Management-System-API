@@ -17,7 +17,8 @@ In addition, the API can return a 404 error if a employee id is non-existent.
 - Maven
 
 ## DataBase
-- MySQL
+- PostgresSQL (current)
+- MySQL (previously used)
 
 # Author
 
