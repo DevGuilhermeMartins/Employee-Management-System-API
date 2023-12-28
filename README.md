@@ -15,6 +15,7 @@ In addition, the API can return a 404 error if a employee id is non-existent.
 - Spring Boot
 - JPA / Hibernate
 - Maven
+- Flyway
 
 ## DataBase
 - PostgresSQL (current)
