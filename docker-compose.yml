@@ -1,0 +1,50 @@
+version: "3.5"
+
+services:
+  
+  db:
+    image: "postgres:16.0-alpine3.18"
+    container_name: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=311005Ge
+      - POSTGRES_DB=employee_management_system_api
+    ports:
+     - 5430:5432
+    networks:
+     - cyberData
+     
+  db-flyway:
+    image: flyway/flyway:latest
+    container_name: db-flyway
+    networks:
+      - cyberData
+    volumes:
+     - .:/flyway/sql
+    command: -url=jdbc:postgres://db -schemas=db -user=postgres -password=311005Ge -connectRetries=60 migrate
+    depends_on:
+      - db
+     
+  employee-management-service:
+    image: employee-management-service
+    container_name: employee-management-service
+    build:
+      context: .
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/employee_management_system_api
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=311005Ge
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=org.postgresql.Driver
+      - SPRING_FLYWAY_URL=jdbc:postgresql://db:5432/employee_management_system_api
+      - SPRING_FLYWAY_USER=postgres
+      - SPRING_FLYWAY_PASSWORD=311005Ge
+    ports:
+      - 3000:3000
+    networks:
+      - cyberData
+      
+networks:
+  cyberData:
+    driver: bridge
