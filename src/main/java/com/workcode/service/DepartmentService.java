@@ -46,6 +46,6 @@ public class DepartmentService {
 	}
 
 	private void updateData(Department departEntity, Department departData) {
-		departEntity.setName(departData.getName());
+		departEntity.setDepartmentName(departData.getDepartmentName());
 	}
 }

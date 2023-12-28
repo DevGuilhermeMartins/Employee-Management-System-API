@@ -1,7 +1,9 @@
 package com.workcode.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.workcode.dto.PositionDTO;
 import com.workcode.model.Position;
 import com.workcode.service.PositionService;
 
@@ -24,28 +27,49 @@ public class PositionController {
 	@Autowired
 	private PositionService posService;
 	
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	@PostMapping
-	public ResponseEntity<Position> registerPosition(@RequestBody Position pos){
-		var posRegistered = posService.registerPosition(pos);
-		return new ResponseEntity<>(posRegistered, HttpStatus.CREATED);
+	public ResponseEntity<PositionDTO> registerPosition(@RequestBody PositionDTO posDto){
+		// Convert DTO to Entity
+		var posEntity = modelMapper.map(posDto, Position.class);
+		
+		var posCreate = posService.registerPosition(posEntity);
+		
+		// Convert Entity to DTO
+		var toPositionDto = modelMapper.map(posCreate, PositionDTO.class);
+		
+		return new ResponseEntity<PositionDTO>(toPositionDto, HttpStatus.CREATED);
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Position>> searchAllPositions(){
-		var poss = posService.searchAllPositions();
-		return ResponseEntity.ok().body(poss);
+	public List<PositionDTO> searchAllPositions(){
+		return posService.searchAllPositions().stream().map(pos -> modelMapper.map(pos, PositionDTO.class))
+				.collect(Collectors.toList());
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Position> searchPositionById(@PathVariable Long id){
+	public ResponseEntity<PositionDTO> searchPositionById(@PathVariable Long id){
 		Position pos = posService.searchPositionById(id);
-		return ResponseEntity.ok().body(pos);
+		
+		// Convert Entity to DTO
+		var posResponse = modelMapper.map(pos, PositionDTO.class);
+		
+		return ResponseEntity.ok().body(posResponse);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Position> updatePositionData(@PathVariable Long id, @RequestBody Position pos){
-		pos = posService.updatePositionData(id, pos);
-		return ResponseEntity.ok().body(pos);
+	public ResponseEntity<PositionDTO> updatePositionData(@PathVariable Long id, @RequestBody PositionDTO posloyeeDTO){
+		// Convert DTO to Entity
+		var posEntity = modelMapper.map(posloyeeDTO, Position.class);
+		
+		var posUpdated = posService.updatePositionData(id, posEntity);
+		
+		// Convert Entity to DTO
+		var posResponse = modelMapper.map(posUpdated, PositionDTO.class);
+		
+		return ResponseEntity.ok().body(posResponse);
 	}
 	
 	@DeleteMapping(value = "/{id}")

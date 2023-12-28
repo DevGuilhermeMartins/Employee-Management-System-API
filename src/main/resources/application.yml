@@ -1,3 +1,6 @@
+server:
+  port: 3000
+
 spring:
   jpa:
     show-sql: true
@@ -7,5 +10,9 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/employee_management_system_api
     username: postgres
+    password: 311005Ge
+  flyway:
+    url: jdbc:postgresql://localhost:5432/employee_management_system_api
+    user: postgres
     password: 311005Ge
     

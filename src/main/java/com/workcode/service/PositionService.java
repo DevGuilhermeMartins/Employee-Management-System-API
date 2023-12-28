@@ -46,6 +46,6 @@ public class PositionService {
 	}
 
 	private void updateData(Position posEntity, Position posData) {
-		posEntity.setName(posData.getName());
+		posEntity.setPosition_name(posData.getPosition_name());
 	}
 }
