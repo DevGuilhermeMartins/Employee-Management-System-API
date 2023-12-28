@@ -21,7 +21,7 @@ services:
       - cyberData
     volumes:
      - .:/flyway/sql
-    command: -url=jdbc:postgres://db -schemas=db -user=postgres -password=311005Ge -connectRetries=60 migrate
+    command: -url=jdbc:postgres://db -schemas=employee_management_system_api -user=postgres -password=311005Ge -connectRetries=60 migrate
     depends_on:
       - db
      
