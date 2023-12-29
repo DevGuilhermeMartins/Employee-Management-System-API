@@ -15,4 +15,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/employee_management_system_api
     user: postgres
     password: 311005Ge
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET:my-secret-key}
     
